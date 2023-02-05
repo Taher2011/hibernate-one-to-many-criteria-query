@@ -43,8 +43,8 @@ public class Client {
 			// getGuidesJoinStudents(entityManager, transaction);
 			// getGuidesJoinStudentsEager(entityManager, transaction);
 			// getGuidesLeftJoinStudentsEager(entityManager, transaction);
-			// getStudentsJoinGuides1(entityManager, transaction);
-			// getStudentsJoinGuides2(entityManager, transaction);
+			getStudentAndAssociatedGuidesByGuideId(entityManager, transaction);
+			getStudentAndAssociatedGuides(entityManager, transaction);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -185,7 +185,8 @@ public class Client {
 	}
 
 	// below method is for inner join
-	// jpql query will be "select student from Student student join student.guide guide"
+	// jpql query will be "select student from Student student join student.guide
+	// guide"
 	// sql query will be "select * from student s join guide g on s.guide_id = g.id"
 	private static void getStudentsJoinGuides(EntityManager entityManager, EntityTransaction transaction) {
 		transaction.begin();
@@ -206,8 +207,10 @@ public class Client {
 	}
 
 	// below method is for left inner join
-	// jpql query will be "select student from Student student left join student.guide guide"
-	// sql query will be "select * from student s left join guide g on s.guide_id = g.id"
+	// jpql query will be "select student from Student student left join
+	// student.guide guide"
+	// sql query will be "select * from student s left join guide g on s.guide_id =
+	// g.id"
 	private static void getStudentsLeftJoinGuides(EntityManager entityManager, EntityTransaction transaction) {
 		transaction.begin();
 
@@ -227,7 +230,8 @@ public class Client {
 	}
 
 	// below method is for inner join
-	// jpql query will be "select guide from Guide guide join guide.students student"
+	// jpql query will be "select guide from Guide guide join guide.students
+	// student"
 	// sql query will be "select * from guide g join student s on g.id = s.guide_id"
 	private static void getGuidesJoinStudents(EntityManager entityManager, EntityTransaction transaction) {
 		transaction.begin();
@@ -249,7 +253,8 @@ public class Client {
 	}
 
 	// below method is for inner join
-	// jpql query will be "select guide from Guide guide join fetch guide.students student"
+	// jpql query will be "select guide from Guide guide join fetch guide.students
+	// student"
 	// sql query will be "select * from guide g join student s on g.id = s.guide_id"
 	private static void getGuidesJoinStudentsEager(EntityManager entityManager, EntityTransaction transaction) {
 		transaction.begin();
@@ -271,8 +276,10 @@ public class Client {
 	}
 
 	// below method is for left inner join
-	// jpql query will be "select guide from Guide guide left join fetch guide.students student"
-	// sql query will be "select * from guide g left join student s on g.id = s.guide_id"
+	// jpql query will be "select guide from Guide guide left join fetch
+	// guide.students student"
+	// sql query will be "select * from guide g left join student s on g.id =
+	// s.guide_id"
 	private static void getGuidesLeftJoinStudentsEager(EntityManager entityManager, EntityTransaction transaction) {
 		transaction.begin();
 
@@ -292,13 +299,15 @@ public class Client {
 		transaction.commit();
 	}
 
-	private static void getStudentsJoinGuides1(EntityManager entityManager, EntityTransaction transaction) {
+	private static void getStudentAndAssociatedGuidesByGuideId(EntityManager entityManager,
+			EntityTransaction transaction) {
 		transaction.begin();
 
 		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 
-		TypedQuery<Student> query = entityManager.createNamedQuery("Student.getStudentGuide1", Student.class)
-				.setParameter("id", 2);
+		TypedQuery<Student> query = entityManager
+				.createNamedQuery("Student.getStudentAndAssociatedGuidesByGuideId", Student.class)
+				.setParameter("id", 1);
 		List<Student> students = query.getResultList();
 		for (Student student : students) {
 			System.out.println(student);
@@ -307,7 +316,7 @@ public class Client {
 		transaction.commit();
 	}
 
-	private static void getStudentsJoinGuides2(EntityManager entityManager, EntityTransaction transaction) {
+	private static void getStudentAndAssociatedGuides(EntityManager entityManager, EntityTransaction transaction) {
 		transaction.begin();
 
 		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
@@ -321,8 +330,8 @@ public class Client {
 		TypedQuery<Guide> query = entityManager.createQuery(criteria);
 		Guide guide = query.getSingleResult();
 
-		TypedQuery<Student> query1 = entityManager.createNamedQuery("Student.getStudentGuide2", Student.class)
-				.setParameter("guide", guide);
+		TypedQuery<Student> query1 = entityManager
+				.createNamedQuery("Student.getStudentAndAssociatedGuides", Student.class).setParameter("guide", guide);
 		List<Student> students = query1.getResultList();
 		for (Student student : students) {
 			System.out.println(student);

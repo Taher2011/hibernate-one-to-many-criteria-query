@@ -22,8 +22,8 @@ import lombok.Setter;
 @AllArgsConstructor
 @Entity
 @NamedQueries({
-		@NamedQuery(name = "Student.getStudentGuide1", query = "select student from Student student where student.guide.id = :id"),
-		@NamedQuery(name = "Student.getStudentGuide2", query = "select student from Student student where student.guide = :guide") })
+		@NamedQuery(name = "Student.getStudentAndAssociatedGuidesByGuideId", query = "select student from Student student where student.guide.id = :id"),
+		@NamedQuery(name = "Student.getStudentAndAssociatedGuides", query = "select student from Student student where student.guide = :guide") })
 public class Student {
 
 	@Id
@@ -35,8 +35,7 @@ public class Student {
 
 	private String name;
 
-	@ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY) // by default fetch types for @ManyToOne and
-																		// @OneToOne mappings are EAGER
+	@ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY) // by default fetch types for @ManyToOne and @OneToOne mappings are EAGER
 	@JoinColumn(name = "guide_id")
 	private Guide guide;
 

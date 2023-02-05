@@ -33,8 +33,7 @@ public class Guide {
 	@Column(name = "staff_id")
 	private String staffId;
 
-	@OneToMany(mappedBy = "guide", cascade = CascadeType.PERSIST) // by default fetch types for @OneToMany and
-																	// @ManyToMany mappings are LAZY
+	@OneToMany(mappedBy = "guide", cascade = CascadeType.PERSIST) // by default fetch types for @OneToMany and @ManyToMany mappings are LAZY
 	private Set<Student> students = new HashSet<>();
 
 	public void addStudent(Student student) {
